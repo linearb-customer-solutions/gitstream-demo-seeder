@@ -81,7 +81,7 @@ automations:
   review_sensitive_files:
     # For all files listed in the sensitive custom expression.
     if:
-      - is.sensitive
+      - {{ is.sensitive }}
     run:
       # Add reviewers from the dev-leads team, and require two approvals
       - action: add-reviewers@v1
