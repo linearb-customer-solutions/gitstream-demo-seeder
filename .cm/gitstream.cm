@@ -1,0 +1,48 @@
+# -*- mode: yaml -*-
+
+manifest:
+  version: 1.0
+
+  
+automations:
+  linearb_ai_review:
+    on:
+      - commit
+    if:
+      - {{ pr.draft == false }}
+      - {{ pr.author | match(list=['github-actions', 'dependabot', '[bot]']) | nope }}
+    run:
+      - action: code-review@v1
+        args:
+          approve_on_LGTM: {{ APPROVE_PR_ON_LGTM }}
+
+
+  pr_description_by_linearb_ai:
+    on:
+      - commit
+    if:
+      - {{ pr.draft == false }}
+      - {{ pr.author | match(list=['github-actions', 'dependabot', '[bot]']) | nope }}
+    run:
+      - action: update-description@v1
+        args:
+          concat_mode: append
+          description: {{ source | AI_DescribePR }}
+
+
+
+APPROVE_PR_ON_LGTM: {{ pr.author | match(list=PR_REVIEW_USERS) | some }}
+PR_REVIEW_USERS:
+  - Fadikhayo1995
+  - RoyKulik
+  - yeelali14
+  - nivSwisa1
+  - EladKohavi
+  - MishaKav
+  - vim-zz
+  - PavelLinearB
+  - saharavishag
+  - ilyatrunovlb
+  - orielz
+  - KerenLinearB
+  - YovelElad
