@@ -1,0 +1,64 @@
+# -*- mode: yaml -*-
+manifest:
+  version: 1.0
+
+triggers:
+  include:
+    branch:
+      - add-docs
+
+automations:
+  label_unresolved_threads:  
+    if:  
+      - {{ pr.unresolved_threads }}
+    run:
+      - action: add-label@v1
+        args:
+          label: "{{ pr.unresolved_threads }} Unresolved Thread(s)"
+          color: {{ colors.yellow }}
+
+  explain_code_experts:
+    if:
+      - true
+    run:
+      - action: explain-code-experts@v1 
+        args:
+          gt: 10
+
+  assign_code_experts:
+    if:
+      - true
+    run:
+      - action: add-reviewers@v1
+        args:
+          reviewers: {{ repo | codeExperts(gt=10) }}
+
+  linearb_ai_review:
+    if:
+      - true
+    run:
+      - action: code-review@v1
+
+  safe_changes:
+    # Triggered for any changes that only affect formatting, documentation, tests, or images
+    if:
+      - {{ is.formatting or is.docs or is.tests or is.image }}
+    # Apply a safe change label, approve the PR and explain why in a comment.
+    run: 
+      - action: add-label@v1
+        args:
+          label: 'safe-change'
+      - action: approve@v1
+      - action: add-comment@v1
+        args:
+          comment: |
+            This PR is considered a safe change and has been automatically approved.
+
+is:
+  formatting: {{ source.diff.files | isFormattingChange }}
+  docs: {{ files | allDocs }}
+  tests: {{ files | allTests }}
+  image: {{ files | allImages }}
+
+colors:
+  yellow: 'fbca04'
