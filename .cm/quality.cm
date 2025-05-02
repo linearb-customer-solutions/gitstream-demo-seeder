@@ -81,10 +81,9 @@ automations:
   review_sensitive_files:
     # For all files listed in the sensitive custom expression.
     if:
-      - {{ files | match(regexp=sensitive_files) | some }}
+      - is.sensitive
     run:
       # Add reviewers from the dev-leads team, and require two approvals
-      # Modify `my-organization/security` to match your organization.
       - action: add-reviewers@v1
         args:
           reviewers: [vlussenburg]
@@ -95,6 +94,16 @@ automations:
         args:
           comment: |
             This PR affects one or more sensitive files and requires review from the security team.
+
+  show_changed_files:
+    if:
+      - true
+    run:
+      - action: add-comment@v1
+        args:
+          comment: |
+            FILES DUMP {{ files | dump | safe }}
+            JS FILES DUMP {{ files | match(list=sensitive_directories) | dump | safe }}
 
 calc:
   etr: {{ branch | estimatedReviewTime }}
@@ -108,7 +117,10 @@ colors:
   yellow: 'fbca04'
   green: '0e8a16'
 
-sensitive_files:
+is:
+  sensitive: {{ files | match(list=sensitive_directories) | some }}
+
+sensitive_directories:
   - frontend/
   - services/auth-python/app/
   - services/billing-csharp/Controllers/
