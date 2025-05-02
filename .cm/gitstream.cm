@@ -1,48 +1,57 @@
 # -*- mode: yaml -*-
-
+# This example configuration provides basic automations to get started with gitStream.
+# View the gitStream quickstart for more examples: https://docs.gitstream.cm/examples/
 manifest:
   version: 1.0
 
-  
+
 automations:
-  linearb_ai_review:
-    on:
-      - commit
+  # Add a label that indicates how many minutes it will take to review the PR.
+  estimated_time_to_review:
     if:
-      - {{ pr.draft == false }}
-      - {{ pr.author | match(list=['github-actions', 'dependabot', '[bot]']) | nope }}
+      - true
     run:
-      - action: code-review@v1
+      - action: add-label@v1
         args:
-          approve_on_LGTM: {{ APPROVE_PR_ON_LGTM }}
-
-
-  pr_description_by_linearb_ai:
-    on:
-      - commit
+          label: "{{ calc.etr }} min review"
+          color: {{ colors.red if (calc.etr >= 20) else ( colors.yellow if (calc.etr >= 5) else colors.green ) }}
+  # Inform PR authors when they fail to reference Jira tickets in the PR title or description.
+  label_missing_jira_info:
     if:
-      - {{ pr.draft == false }}
-      - {{ pr.author | match(list=['github-actions', 'dependabot', '[bot]']) | nope }}
+      - {{ not (has.jira_ticket_in_title or has.jira_ticket_in_desc) }}
     run:
-      - action: update-description@v1
+      - action: add-label@v1
         args:
-          concat_mode: append
-          description: {{ source | AI_DescribePR }}
+          label: "missing-jira"
+          color: {{ colors.red }}
+      - action: add-comment@v1
+        args:
+          comment: |
+            This PR is missing a Jira ticket reference in the title or description.
+            Please add a Jira ticket reference to the title or description of this PR.
+  # Post a comment that lists the best experts for the files that were modified.
+  explain_code_experts:
+    if:
+      - true
+    run:
+      - action: explain-code-experts@v1 
+        args:
+          gt: 10 
 
 
+# +----------------------------------------------------------------------------+
+# | Custom Expressions                                                         |
+# | https://docs.gitstream.cm/how-it-works/#custom-expressions                 |
+# +----------------------------------------------------------------------------+
 
-APPROVE_PR_ON_LGTM: {{ pr.author | match(list=PR_REVIEW_USERS) | some }}
-PR_REVIEW_USERS:
-  - Fadikhayo1995
-  - RoyKulik
-  - yeelali14
-  - nivSwisa1
-  - EladKohavi
-  - MishaKav
-  - vim-zz
-  - PavelLinearB
-  - saharavishag
-  - ilyatrunovlb
-  - orielz
-  - KerenLinearB
-  - YovelElad
+calc:
+  etr: {{ branch | estimatedReviewTime }}
+
+has:
+  jira_ticket_in_title: {{ pr.title | includes(regex=r/\b[A-Za-z]+-\d+\b/) }}
+  jira_ticket_in_desc: {{ pr.description | includes(regex=r/atlassian.net\/browse\/\w{1,}-\d{3,4}/) }}
+
+colors:
+  red: 'b60205'
+  yellow: 'fbca04'
+  green: '0e8a16'
