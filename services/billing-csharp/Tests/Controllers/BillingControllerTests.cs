@@ -53,7 +53,7 @@ public class BillingControllerTests
             Quantity = 1
         });
 
-        Assert.IsType<UnauthorizedResult>(result);
+        Assert.IsType<UnauthorizedObjectResult>(result);
     }
 
     [Fact]

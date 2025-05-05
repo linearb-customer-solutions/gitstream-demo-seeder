@@ -4,6 +4,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- existing packages… -->
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Remove="Tests\**\*.cs" />
   </ItemGroup>
 </Project>

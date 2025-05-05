@@ -6,6 +6,9 @@ services:
 
   billing-csharp:
     build: ./services/billing-csharp
+    # this is an "internal service", so we don't need to expose it to the outside world
+    # ports:
+    #   - "8003:80"
     environment:
       - BILLING_SECRET=topsecretvalue
     expose:
@@ -21,8 +24,16 @@ services:
       - billing-csharp
     environment:
       - BILLING_SECRET=topsecretvalue
+      - AUTH_SERVICE_URL=http://auth-python:8000
+      - BILLING_SERVICE_URL=http://billing-csharp
 
   frontend:
     build: ./frontend
     ports:
       - "3000:3000"
+    environment:
+      - AUTH_URL=http://auth-python:8000
+      - ORDERS_URL=http://orders-java:8080
+    links:
+      - auth-python
+      - orders-java

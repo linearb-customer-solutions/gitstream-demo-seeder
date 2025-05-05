@@ -20,12 +20,13 @@ public class ChargeRequest
 [Route("billing")]
 public class BillingController : ControllerBase
 {
+    private readonly string EXPECTED_SECRET = Environment.GetEnvironmentVariable("BILLING_SECRET");
+
     [HttpPost("charge")]
     public async Task<IActionResult> Charge([FromBody] ChargeRequest request)
     {
-        var expectedSecret = Environment.GetEnvironmentVariable("BILLING_SECRET");
         var receivedSecret = Request.Headers["X-Service-Secret"].ToString();
-        if (string.IsNullOrEmpty(receivedSecret) || receivedSecret != expectedSecret)
+        if (string.IsNullOrEmpty(receivedSecret) || receivedSecret != EXPECTED_SECRET)
             return Unauthorized("Missing or invalid service secret");
 
         if (string.IsNullOrEmpty(request.Username) || string.IsNullOrEmpty(request.ProductId) || request.Quantity <= 0)
