@@ -112,7 +112,7 @@ automations:
     run:
       - action: add-reviewers@v1
         args:
-          reviewers: {{ repo | codeExperts(gt=10) }}
+          reviewers: {{ repo | codeExperts(gt=1) }}
 
 has:
   screenshot_link: {{ pr.description | includes(regex=r/!\[.*\]\(.*(jpg|svg|png|gif|psd).*\)/) }}

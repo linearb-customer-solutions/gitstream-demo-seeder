@@ -103,7 +103,7 @@ automations:
         args:
           comment: |
             FILES DUMP {{ files | dump | safe }}
-            JS FILES DUMP {{ files | match(list=sensitive_directories) | dump | safe }}
+            CODEREVIEW {{ repo | codeExperts(gt=1) }}
 
 calc:
   etr: {{ branch | estimatedReviewTime }}
