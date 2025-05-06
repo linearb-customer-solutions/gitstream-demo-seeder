@@ -5,7 +5,7 @@ manifest:
 triggers:
   include:
     branch:
-      - code-update
+      - code-update-quality
 
 automations:
  

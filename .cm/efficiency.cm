@@ -5,7 +5,7 @@ manifest:
 triggers:
   include:
     branch:
-      - doc-update
+      - code-update-efficiency
 
 automations:
   label_unresolved_threads:  
