@@ -100,6 +100,15 @@ automations:
             Our mentor team has automatically been assigned to review this PR and guide you through the process.
             Please reach out to that team if you have questions about the next steps.
 
+  review_todo_comments:
+      if:
+        - {{ source.diff.files | matchDiffLines(regex=r/^[+].*(TODO|todo|FIXME|fixme)/) | some }}
+      run:
+        - action: request-changes@v1
+          args:
+            comment: |
+              This PR contains a TODO statement. Please check to see if they should be removed.
+
   review_sensitive_files:
     # For all files listed in the sensitive custom expression.
     if:
