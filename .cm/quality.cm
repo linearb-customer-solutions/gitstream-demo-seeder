@@ -95,15 +95,13 @@ automations:
           comment: |
             This PR affects one or more sensitive files and requires review from the security team.
 
-  show_changed_files:
+  code_experts:
     if:
       - true
     run:
-      - action: add-comment@v1
+      - action: explain-code-experts@v1
         args:
-          comment: |
-            FILES DUMP {{ files | dump | safe }}
-            CODEREVIEW {{ repo | codeExperts(gt=1) }}
+          gt: 10
 
 calc:
   etr: {{ branch | estimatedReviewTime }}
