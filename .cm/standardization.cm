@@ -23,11 +23,19 @@ automations:
             This PR is missing a Jira ticket reference in the title or description.
             Please add a Jira ticket reference to the title or description of this PR.
 
-  linearb_ai_review:
+  linearb_ai_description:
+    # trigger it only when PR is created or has new commits
+    on:
+      - pr_created
+      - commit
+    # skip description for Draft PRs and PRs from bots
     if:
-      - true
+      - {{ not pr.draft }}
+      - {{ pr.author | match(list=['github-actions', 'dependabot', '[bot]']) | nope }}
     run:
-      - action: code-review@v1
+      - action: describe-changes@v1
+        args:
+          concat_mode: append
 
   welcome_newcomer:
     # If the PR author made their first contribution on the current day
@@ -52,20 +60,6 @@ automations:
             Our mentor team has automatically been assigned to review this PR and guide you through the process.
             Please reach out to that team if you have questions about the next steps.
 
-  linearb_ai_description:
-    # trigger it only when PR is created or has new commits
-    on:
-      - pr_created
-      - commit
-    # skip description for Draft PRs and PRs from bots
-    if:
-      - {{ not pr.draft }}
-      - {{ pr.author | match(list=['github-actions', 'dependabot', '[bot]']) | nope }}
-    run:
-      - action: describe-changes@v1
-        args:
-          concat_mode: append
-
     linearb_ai_review:
       if:
         - true
@@ -75,7 +69,7 @@ automations:
   request_screenshot:
     # Triggered for PRs that lack an image file or link to an image in the PR description
     if:
-      - {{ files | match(list=['frontend']) }}
+      - {{ files | match(list=['frontend']) | some }}
       - {{ not (has.screenshot_link or has.image_uploaded) }}
     run:
       - action: add-label@v1
@@ -104,6 +98,14 @@ automations:
           args:
             comment: |
               This PR contains a TODO statement. Please check to see if they should be removed.
+
+  explain_code_experts:
+    if:
+      - true
+    run:
+      - action: explain-code-experts@v1 
+        args:
+          gt: 10
 
   # Stage 2
   assign_code_experts:
