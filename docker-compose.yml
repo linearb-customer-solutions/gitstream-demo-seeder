@@ -1,8 +1,8 @@
 services:
   auth-python:
     build: ./services/auth-python
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
 
   billing-csharp:
     build: ./services/billing-csharp
@@ -17,8 +17,8 @@ services:
 
   orders-java:
     build: ./services/orders-java
-    ports:
-      - "8002:8080"
+    expose:
+      - "8002"
     links:
       - auth-python
       - billing-csharp
