@@ -48,7 +48,7 @@ automations:
     run:
       - action: add-reviewers@v1
         args:
-          reviewers: [vlussenburg]
+          reviewers: [linear-b/cghyzel]
       - action: add-label@v1
         args:
           label: 'new-contributor'
