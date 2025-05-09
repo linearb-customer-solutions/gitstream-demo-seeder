@@ -29,4 +29,4 @@ jobs:
           ref: 'new-feature'
 
       - name: Run rewrite script
-        run: ./gitstream-automation-demo/bootstrap_demo_repo.sh
+        run: ./gitstream-automation-demo-main/bootstrap_demo_repo.sh
