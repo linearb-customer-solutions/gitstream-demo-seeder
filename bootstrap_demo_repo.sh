@@ -23,8 +23,8 @@ mkdir rewritten-demo
 cp -r gitstream-automation-demo-main/demo-app/. rewritten-demo/
 cd rewritten-demo
 git config --global init.defaultBranch main
-git config user.name "GitHub Actions Bot"
-git config user.email "actions@github.com"
+git config --global user.name "GitHub Actions Bot"
+git config --global user.email "actions@github.com"
 git init
 git remote add origin ${TARGET_REPO}
 
