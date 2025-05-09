@@ -14,7 +14,7 @@ jobs:
       FRONTEND_COMMITTER_USERNAME: ${{ vars.FRONTEND_COMMITTER_USERNAME }}
       PR_COMMITTER_USERNAME: ${{ vars.PR_COMMITTER_USERNAME }}
       GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }} # Token with write access to the demo repo
-      TARGET_REPO: https://x-access-token:${GH_TOKEN}@github.com/linear-b/gitstream-demo.git
+      TARGET_REPO: https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/linear-b/gitstream-demo.git
 
     steps:
       - name: Checkout repo @ main
