@@ -13,7 +13,7 @@ jobs:
       META_COMMITTER_USERNAME: ${{ vars.META_COMMITTER_USERNAME }}
       FRONTEND_COMMITTER_USERNAME: ${{ vars.FRONTEND_COMMITTER_USERNAME }}
       PR_COMMITTER_USERNAME: ${{ vars.PR_COMMITTER_USERNAME }}
-      TARGET_REPO: git@github.com:linear-b/gitstream-demo.git # Where to push the demo repo
+      TARGET_REPO: https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com:linear-b/gitstream-demo.git
       GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }} # Token with write access to the demo repo
 
     steps:
