@@ -21,6 +21,7 @@ rm -rf rewritten-demo
 mkdir rewritten-demo
 cp -r gitstream-automation-demo-main/demo-app/. rewritten-demo/
 cd rewritten-demo
+git config --global init.defaultBranch main
 git init
 git remote add origin ${TARGET_REPO:-git@github.com:linear-b/gitstream-demo.git}
 
