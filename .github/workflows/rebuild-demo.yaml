@@ -19,12 +19,14 @@ jobs:
     steps:
       - name: Checkout repo @ main
         uses: actions/checkout@v4
-        path: 'gitstream-automation-demo-main' # script below uses this path
+        with:
+          path: 'gitstream-automation-demo-main' # script below uses this path
 
       - name: Checkout repo @ new-feature
         uses: actions/checkout@v4
-        path: 'gitstream-automation-demo-new-feature' # script below uses this path
-        ref: 'new-feature'
+        with:
+          path: 'gitstream-automation-demo-new-feature' # script below uses this path
+          ref: 'new-feature'
 
       - name: Make sure main is merged into new-feature
         working-directory: gitstream-automation-demo-new-feature
