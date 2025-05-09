@@ -1,5 +1,6 @@
 #!/bin/bash
 set -euo pipefail
+set -x  # 👈 Echo all commands as they run
 
 # === Random commit date generation (past 90 days) ===
 generate_commit_date() {
