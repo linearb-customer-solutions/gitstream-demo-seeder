@@ -28,10 +28,5 @@ jobs:
           path: 'gitstream-automation-demo-new-feature' # script below uses this path
           ref: 'new-feature'
 
-      - name: Make sure main is merged into new-feature
-        working-directory: gitstream-automation-demo-new-feature
-        run: |
-          git pull origin main --rebase
-
       - name: Run rewrite script
         run: ./gitstream-automation-demo/bootstrap_demo_repo.sh
