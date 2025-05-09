@@ -14,7 +14,8 @@ jobs:
       FRONTEND_COMMITTER_USERNAME: ${{ vars.FRONTEND_COMMITTER_USERNAME }}
       PR_COMMITTER_USERNAME: ${{ vars.PR_COMMITTER_USERNAME }}
       TARGET_REPO: git@github.com:linear-b/gitstream-demo.git # Where to push the demo repo
-      GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }} # Token with write access to the demo repo
+
     steps:
       - name: Checkout repo @ main
         uses: actions/checkout@v4
@@ -24,6 +25,12 @@ jobs:
         uses: actions/checkout@v4
         path: 'gitstream-automation-demo-new-feature' # script below uses this path
         ref: 'new-feature'
+
+      - name: Make sure main is merged into new-feature
+        working-directory: gitstream-automation-demo-new-feature
+        run: |
+          git pull origin main --rebase
+          git push origin new-feature
 
       - name: Run rewrite script
         run: ./gitstream-automation-demo/bootstrap_demo_repo.sh
