@@ -19,14 +19,14 @@ commit_with_env() {
 # === Clean and Prepare Target ===
 rm -rf rewritten-demo 
 mkdir rewritten-demo
-cp -r gitstream-automation-demo-main/demo-app/* rewritten-demo/
+cp -r gitstream-automation-demo-main/demo-app/. rewritten-demo/
 cd rewritten-demo
 git init
 git remote add origin ${TARGET_REPO:-git@github.com:linear-b/gitstream-demo.git}
 
 # === Add Grouped Commits ===
 git add frontend/ && commit_with_env "Implement frontend UI" "${FRONTEND_COMMITTER_USERNAME:-amitmohleji}"
-git add services/auth-python/ &git& commit_with_env "Add Python auth service" "${SERVICE_COMMITTER_USERNAME:-cghyzel}"
+git add services/auth-python/ && commit_with_env "Add Python auth service" "${SERVICE_COMMITTER_USERNAME:-cghyzel}"
 git add services/billing-csharp/ && commit_with_env "Add C# billing service" "${SERVICE_COMMITTER_USERNAME:-cghyzel}"
 git add services/orders-java/ && commit_with_env "Add Java orders service" "${SERVICE_COMMITTER_USERNAME:-cghyzel}"
 git add .github/ .cm/ docker-compose.yml && commit_with_env "Infra + gitStream config" "${META_COMMITTER_USERNAME:-HeatherHazell}"
