@@ -22,8 +22,10 @@ mkdir rewritten-demo
 cp -r gitstream-automation-demo-main/demo-app/. rewritten-demo/
 cd rewritten-demo
 git config --global init.defaultBranch main
+git config user.name "GitHub Actions Bot"
+git config user.email "actions@github.com"
 git init
-git remote set-url origin ${TARGET_REPO}
+git remote add origin ${TARGET_REPO}
 
 # === Add Grouped Commits ===
 git add frontend/ && commit_with_env "Implement frontend UI" "${FRONTEND_COMMITTER_USERNAME:-amitmohleji}"
