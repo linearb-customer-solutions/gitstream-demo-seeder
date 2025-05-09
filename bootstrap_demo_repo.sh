@@ -26,7 +26,7 @@ git config --global init.defaultBranch main
 git config --global user.name "GitHub Actions Bot"
 git config --global user.email "actions@github.com"
 git init
-git remote add origin ${TARGET_REPO}
+git remote add origin "${TARGET_REPO}"
 
 # === Add Grouped Commits ===
 git add frontend/ && commit_with_env "Implement frontend UI" "${FRONTEND_COMMITTER_USERNAME:-amitmohleji}"
