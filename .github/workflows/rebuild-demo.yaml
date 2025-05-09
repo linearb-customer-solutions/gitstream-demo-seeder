@@ -1,0 +1,28 @@
+name: Rebuild demo repo
+
+on:
+  workflow_dispatch:
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    env:
+      # These variables are set in the GitHub repository settings
+      # Should be valid GitHub usernames in the same organization as the demo repo
+      SERVICE_COMMITTER_USERNAME: ${{ vars.SERVICE_COMMITTER_USERNAME }}
+      META_COMMITTER_USERNAME: ${{ vars.META_COMMITTER_USERNAME }}
+      FRONTEND_COMMITTER_USERNAME: ${{ vars.FRONTEND_COMMITTER_USERNAME }}
+      PR_COMMITTER_USERNAME: ${{ vars.PR_COMMITTER_USERNAME }}
+      TARGET_REPO: git@github.com:linear-b/gitstream-demo.git # Where to push the demo repo
+    steps:
+      - name: Checkout repo @ main
+        uses: actions/checkout@v4
+        path: 'gitstream-automation-demo-main' # script below uses this path
+
+      - name: Checkout repo @ new-feature
+        uses: actions/checkout@v4
+        path: 'gitstream-automation-demo-new-feature' # script below uses this path
+        ref: 'new-feature'
+
+      - name: Run rewrite script
+        run: ./gitstream-automation-demo/bootstrap_demo_repo.sh
