@@ -3,6 +3,10 @@ manifest:
   version: 1.0
 
 triggers:
+  on:
+    - pr_created
+    - commit
+    - pr_ready_for_review
   include:
     branch:
       - code-update-quality
