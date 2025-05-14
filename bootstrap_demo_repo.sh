@@ -48,27 +48,38 @@ for branch in $(git ls-remote --heads origin | awk '{print $2}' | sed 's/refs\/h
 done
 
 # === PR Branches ===
-git checkout -b code-update-efficiency
+local branch = "base-kit"
+git checkout -b $branch
+cp -r ../gitstream-automation-demo-new-feature/demo-app/* .
+git add .
+commit_with_env "Feature: order history" "${PR_COMMITTER_USERNAME:-vlussenburg}"
+git push --force origin $branch
+gh pr create --base main --head "$branch" --title "Demo Base Kit" --body ""
+git checkout main
+
+local branch = "efficiency-kit"
+git checkout -b $branch
 echo '# Just some safe documentation changes!' >> README.md
 git add README.md
 commit_with_env "Apply shared service TODO update on code-update-efficiency" "${PR_COMMITTER_USERNAME:-vlussenburg}"
+git push --force origin $branch
+gh pr create --base main --head "$branch" --title "Demo Efficiency Kit" --body ""
 git checkout main
 
-git checkout -b code-update-standardization
+local branch = "quality-kit"
+git checkout -b $branch
 cp -r ../gitstream-automation-demo-new-feature/demo-app/* .
 git add .
 commit_with_env "Feature: order history" "${PR_COMMITTER_USERNAME:-vlussenburg}"
+git push --force origin $branch
+gh pr create --base main --head "$branch" --title "Demo Quality Kit" --body ""
 git checkout main
 
-git checkout -b code-update-quality
+local branch = "standardization-kit"
+git checkout -b $branch
 cp -r ../gitstream-automation-demo-new-feature/demo-app/* .
 git add .
 commit_with_env "Feature: order history" "${PR_COMMITTER_USERNAME:-vlussenburg}"
+git push --force origin $branch
+gh pr create --base main --head "$branch" --title "Demo Standardization Kit" --body ""
 git checkout main
-
-# === PR Management ===
-for branch in code-update-efficiency code-update-standardization code-update-quality; do
-  echo "🚀 Pushing and opening PR for $branch..."
-  git push --force origin $branch
-  gh pr create --base main --head "$branch" --title "$branch" --body ""
-done
