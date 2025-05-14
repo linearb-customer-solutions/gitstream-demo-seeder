@@ -9,7 +9,7 @@ triggers:
     - pr_ready_for_review
   include:
     branch:
-      - code-update-quality
+      - quality-kit
 
 automations:
  
