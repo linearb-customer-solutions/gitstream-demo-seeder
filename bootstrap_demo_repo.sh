@@ -48,7 +48,7 @@ for branch in $(git ls-remote --heads origin | awk '{print $2}' | sed 's/refs\/h
 done
 
 # === PR Branches ===
-local branch = "base-kit"
+branch="base-kit"
 git checkout -b $branch
 cp -r ../gitstream-automation-demo-new-feature/demo-app/* .
 git add .
@@ -57,7 +57,7 @@ git push --force origin $branch
 gh pr create --base main --head "$branch" --title "Demo Base Kit" --body ""
 git checkout main
 
-local branch = "efficiency-kit"
+branch="efficiency-kit"
 git checkout -b $branch
 echo '# Just some safe documentation changes!' >> README.md
 git add README.md
@@ -66,7 +66,7 @@ git push --force origin $branch
 gh pr create --base main --head "$branch" --title "Demo Efficiency Kit" --body ""
 git checkout main
 
-local branch = "quality-kit"
+branch="quality-kit"
 git checkout -b $branch
 cp -r ../gitstream-automation-demo-new-feature/demo-app/* .
 git add .
@@ -75,7 +75,7 @@ git push --force origin $branch
 gh pr create --base main --head "$branch" --title "Demo Quality Kit" --body ""
 git checkout main
 
-local branch = "standardization-kit"
+branch="standardization-kit"
 git checkout -b $branch
 cp -r ../gitstream-automation-demo-new-feature/demo-app/* .
 git add .
