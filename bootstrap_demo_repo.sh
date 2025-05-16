@@ -30,9 +30,9 @@ git remote add origin "${TARGET_REPO}"
 
 # === Add Grouped Commits ===
 git add frontend/ && commit_with_env "Implement frontend UI" "${FRONTEND_COMMITTER_USERNAME:-amitmohleji}"
-git add services/auth-python/ && commit_with_env "Add Python auth service" "${SERVICE_COMMITTER_USERNAME:-cghyzel}"
-git add services/billing-csharp/ && commit_with_env "Add C# billing service" "${SERVICE_COMMITTER_USERNAME:-cghyzel}"
-git add services/orders-java/ && commit_with_env "Add Java orders service" "${SERVICE_COMMITTER_USERNAME:-cghyzel}"
+git add services/auth-python/ && commit_with_env "Add Python auth service" "${AUTH_SERVICE_COMMITTER_USERNAME:-cghyzel}"
+git add services/billing-csharp/ && commit_with_env "Add C# billing service" "${BILLING_SERVICE_COMMITTER_USERNAME:-Harmonma}"
+git add services/orders-java/ && commit_with_env "Add Java orders service" "${ORDERS_SERVICE_COMMITTER_USERNAME:-b-sims}"
 git add .github/ .cm/ docker-compose.yml && commit_with_env "Infra + gitStream config" "${META_COMMITTER_USERNAME:-HeatherHazell}"
 git add README.md && commit_with_env "Add README" "${META_COMMITTER_USERNAME:-HeatherHazell}"
 
