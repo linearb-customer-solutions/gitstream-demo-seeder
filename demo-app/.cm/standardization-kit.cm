@@ -129,3 +129,6 @@ has:
 
 calc:
   etr: {{ branch | estimatedReviewTime }}
+
+colors:
+  red: 'b60205'
