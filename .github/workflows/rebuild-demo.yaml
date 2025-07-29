@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       target_repo:
-        description: 'Optional: override target repo URL (example: git@github.com:linearb-customer-solutions/gitstream-demo.git)'
+        description: 'Optional: override target repo URL (example: github.com:linearb-customer-solutions/gitstream-demo.git)'
         required: false
   schedule:
     - cron: '3 3 * * *'  # Runs daily at 03:03 UTC
